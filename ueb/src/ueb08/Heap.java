@@ -1,3 +1,5 @@
+package ueb08;
+
 import java.util.*;
 
 /**
@@ -209,7 +211,6 @@ public class Heap<T> {
                 return o1.compareTo(o2);
             }
         });
-        Arrays.stream(elems).forEach(temp::add);
 
         while (--k > 0) {
             temp.remove();
@@ -231,20 +232,33 @@ public class Heap<T> {
         Heap<Integer> temp = new Heap<>(new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {
-                return o1.compareTo(o2);
+                return o2.compareTo(o1);
             }
         });
-        return null;
+
+        Arrays.stream(elems, 0, k).forEach(temp::add);
+
+        for (int i = k; i < elems.length; i++) {
+            temp.add(elems[i]);
+            temp.remove();
+        }
+
+        return temp.peek();
     }
 
     public static void main(String[] args) {
 
-        Integer[] integers = {8, 7, 6, 5, 4, 3, 2, 1};
+        Integer[] integers1 = {8, 7, 6, 5, 4, 3, 2, 1};
+        Integer[] integers2 = {2, 6, 1, 4, 12, 9};
 
-        Heap heap = new Heap(integers, COMPARATOR);
+        Heap heap = new Heap(integers1, COMPARATOR);
 
-        Integer s = findKSmallestNaive(integers, 2);
+        Integer s = findKSmallestNaive(integers2, 3);
+        Integer t = findKSmallestHeapify(integers2, 3);
+        Integer q = findKSmallestMaxHeap(integers2, 1);
         System.out.println(s);
+        System.out.println(t);
+        System.out.println(q);
 
 
         final int NUM_VALUES = 100_000_000;
