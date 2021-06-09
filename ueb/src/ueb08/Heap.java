@@ -12,6 +12,7 @@ import java.util.Random;
  */
 
 public class Heap<T> {
+    public static final Comparator<Integer> COMPARATOR = Integer::compareTo;
     /**
      * Constant: The initial capacity, if not set
      */
@@ -31,6 +32,7 @@ public class Heap<T> {
      * The element comparator
      */
     private final Comparator<T> comparator;
+
 
     /**
      * Creates and returns a new Heap, by using the Comparable interface for the Comparator
@@ -66,8 +68,8 @@ public class Heap<T> {
         this.elements = (T[]) new Object[internalSize];
         System.arraycopy(fromArray, 0, this.elements, 1, fromArray.length);
 
-        for (int pos = number/2; pos >= 1; pos -= 1) {
-            downheap(pos);
+        for (int start = fromArray.length/2; start >= 0; --start) {
+            downheap(start);
         }
     }
 
@@ -180,8 +182,8 @@ public class Heap<T> {
         if (k <= 0)
             throw new IllegalArgumentException("k must be >= 1");
 
-        PriorityQueue<Integer> temp = new PriorityQueue<>();
-        for (int i = 0; i < k; i += 1) {
+        Heap<Integer> temp = new Heap<>(new Integer[elements.length], COMPARATOR);
+        for (int i = 0; i < elements.length -1; i += 1) {
             temp.add(elements[i]);
         }
 
@@ -189,13 +191,12 @@ public class Heap<T> {
             if (temp.peek() > elements[i]) continue;
 
             else {
-                temp.poll();
+                temp.remove();
                 temp.add(elements[i]);
             }
         }
-        return null;
+        return temp.peek();
     }
-
     /**
      * Finds the k-th smallest element using efficient heap construction
      *
@@ -210,7 +211,6 @@ public class Heap<T> {
         // TODO: c)
         return null;
     }
-
     /**
      * Finds the k-th smalles element using a max heap
      *
@@ -227,6 +227,13 @@ public class Heap<T> {
     }
 
     public static void main(String[] args) {
+
+        Integer[] integers = {8, 7, 6, 5, 4, 3, 2, 1};
+
+        Heap heap = new Heap(integers, COMPARATOR);
+
+
+
         final int NUM_VALUES = 100_000_000;
 
         System.out.println("Building array.");
