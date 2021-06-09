@@ -1,5 +1,3 @@
-package ueb08;
-
 import java.util.*;
 
 /**
@@ -179,10 +177,18 @@ public class Heap<T> {
         if (k <= 0)
             throw new IllegalArgumentException("k must be >= 1");
 
-        Heap<Integer> temp = new Heap<>(new Comparator<Integer>() {
+        Heap<Integer> temp = new Heap<>(new Comparator<>() {
             @Override
             public int compare(Integer o1, Integer o2) {
-                return o1 - o2;
+                if (o1 > o2) {
+                    return 1;
+                }
+
+                if (o1 < o2) {
+                    return -1;
+                }
+
+                return 0;
             }
         });
 
