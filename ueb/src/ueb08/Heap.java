@@ -66,7 +66,7 @@ public class Heap<T> {
         this.elements = (T[]) new Object[internalSize];
         System.arraycopy(fromArray, 0, this.elements, 1, fromArray.length);
 
-        for (int pos = number/2; pos >= 1; pos -= 1) {
+        for (int pos = number; pos >= 1; pos -= 1) {
             downheap(pos);
         }
     }
