@@ -1,3 +1,5 @@
+package ueb08;
+
 /**
  * This class implements a binary tree
  *

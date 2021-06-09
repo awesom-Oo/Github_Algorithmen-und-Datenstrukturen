@@ -1,9 +1,6 @@
 package ueb08;
 
-import java.util.Comparator;
-import java.util.NoSuchElementException;
-import java.util.PriorityQueue;
-import java.util.Random;
+import java.util.*;
 
 /**
  * This class represents a binary heap
@@ -68,7 +65,7 @@ public class Heap<T> {
         this.elements = (T[]) new Object[internalSize];
         System.arraycopy(fromArray, 0, this.elements, 1, fromArray.length);
 
-        for (int start = fromArray.length/2; start >= 0; --start) {
+        for (int start = number/2; start >= 0; start--) {
             downheap(start);
         }
     }
@@ -182,19 +179,18 @@ public class Heap<T> {
         if (k <= 0)
             throw new IllegalArgumentException("k must be >= 1");
 
-        Heap<Integer> temp = new Heap<>(new Integer[elements.length], COMPARATOR);
-        for (int i = 0; i < elements.length -1; i += 1) {
-            temp.add(elements[i]);
-        }
-
-        for (int i = k; i < elements.length; i += 1) {
-            if (temp.peek() > elements[i]) continue;
-
-            else {
-                temp.remove();
-                temp.add(elements[i]);
+        Heap<Integer> temp = new Heap<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1 - o2;
             }
+        });
+
+        Arrays.stream(elements).forEach(temp::add);
+        while (--k > 0) {
+            temp.remove();
         }
+
         return temp.peek();
     }
     /**
@@ -222,8 +218,13 @@ public class Heap<T> {
         if (k <= 0)
             throw new IllegalArgumentException("k must be >= 1");
 
-        // TODO: d)
-        return null;
+        Heap<Integer> temp = new Heap<Integer>(elems, COMPARATOR);
+
+        while (--k > 0) {
+            temp.remove();
+        }
+
+        return temp.peek();
     }
 
     public static void main(String[] args) {
@@ -232,6 +233,8 @@ public class Heap<T> {
 
         Heap heap = new Heap(integers, COMPARATOR);
 
+        Integer s = findKSmallestNaive(integers, 2);
+        System.out.println(s);
 
 
         final int NUM_VALUES = 100_000_000;
