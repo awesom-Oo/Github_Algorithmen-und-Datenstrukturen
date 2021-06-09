@@ -180,19 +180,12 @@ public class Heap<T> {
         Heap<Integer> temp = new Heap<>(new Comparator<>() {
             @Override
             public int compare(Integer o1, Integer o2) {
-                if (o1 > o2) {
-                    return 1;
-                }
-
-                if (o1 < o2) {
-                    return -1;
-                }
-
-                return 0;
+                return o1.compareTo(o2);
             }
         });
 
         Arrays.stream(elements).forEach(temp::add);
+
         while (--k > 0) {
             temp.remove();
         }
@@ -210,8 +203,19 @@ public class Heap<T> {
         if (k <= 0)
             throw new IllegalArgumentException("k must be >= 1");
 
-        // TODO: c)
-        return null;
+        Heap<Integer> temp = new Heap<>(elems, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1.compareTo(o2);
+            }
+        });
+        Arrays.stream(elems).forEach(temp::add);
+
+        while (--k > 0) {
+            temp.remove();
+        }
+
+        return temp.peek();
     }
     /**
      * Finds the k-th smalles element using a max heap
@@ -224,6 +228,12 @@ public class Heap<T> {
         if (k <= 0)
             throw new IllegalArgumentException("k must be >= 1");
 
+        Heap<Integer> temp = new Heap<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1.compareTo(o2);
+            }
+        });
         return null;
     }
 
