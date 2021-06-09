@@ -218,13 +218,7 @@ public class Heap<T> {
         if (k <= 0)
             throw new IllegalArgumentException("k must be >= 1");
 
-        Heap<Integer> temp = new Heap<Integer>(elems, COMPARATOR);
-
-        while (--k > 0) {
-            temp.remove();
-        }
-
-        return temp.peek();
+        return null;
     }
 
     public static void main(String[] args) {
