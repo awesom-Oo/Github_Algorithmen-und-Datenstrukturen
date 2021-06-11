@@ -34,6 +34,7 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
 
         int compareToKey = this.key.compareTo(key);
 
+<<<<<<< Updated upstream
         // this.key < key
         if (compareToKey < 0) {
             if (right == null) {
@@ -91,4 +92,15 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
         BinarySearchTree<K> cur;
     }
 
+=======
+    public BinarySearchTree<K> remove(K key) {
+        if (this.key == null) return this;
+
+        int compareToKey =
+
+
+
+    }
+
+>>>>>>> Stashed changes
 }
