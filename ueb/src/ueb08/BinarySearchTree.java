@@ -26,4 +26,16 @@ public class BinarySearchTree <K extends Comparable<K>> extends BinaryTree<K> {
         return (BinarySearchTree<K>) right;
     }
 
+    public boolean addKey(K key) {
+
+
+    }
+
+    public BinarySearchTree<K> searchKey(K key) {
+
+    }
+
+    public BinarySearchTree<K> removeKey(K key) {
+
+    }
 }
