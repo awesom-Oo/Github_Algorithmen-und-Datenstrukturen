@@ -8,7 +8,7 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
      * @param key   the key of the tree node
      * @param right the right subtree
      */
-    public BinarySearchTree(BinaryTree<K> left, K key, BinaryTree<K> right) {
+    public BinarySearchTree(BinarySearchTree<K> left, K key, BinarySearchTree<K> right) {
         super(left, key, right);
     }
 
@@ -77,18 +77,71 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
         return null;
     }
 
-    public void remove(K key, BinarySearchTree<K> parent) {
-        if (this.key == null || key == null) return;
+    public void remove(K key) {
 
-        int compareToKey = this.key.compareTo(key);
+        BinarySearchTree<K> parent = null;
+        BinarySearchTree<K> current = this;
 
-        // this.key == key
+        // search key in BST and set its parent pointer
+        while (current != null && current.key != key) {
+            parent = current;
+
+            // key < current.key
+            if (key.compareTo(current.key) < 0) {
+                current = current.getRight();
+            }
+            // key > current.key
+            else {
+                current = current.getRight();
+            }
+        }
+
+        // return if key is not found in the tree
+        if (current == null) return;
+
+        // case 1: node to be deleted has no children
+        if (current.left == null && current.right == null) {
+
+            // if the node to be deleted is not the root node then set its parent left/right child to nill
+            if (current != this) {
+                if (parent.left == current) {
+                    parent.left = null;
+                } else {
+                    parent.right = null;
+                }
+            }
+            // if the tree has only a root node set it´s key to nill
+            else {
+                this.key = null;
+            }
+        }
+
+        // case 2: node to be deleted has two children
+        else if (current.left != null && current.right != null) {
+
+            BinarySearchTree<K> successor = current;
+            BinarySearchTree<K> prev = successor;
+            if (this.key == current.key) successor = successor.getRight();
+
+
+/*            while (successor.left.right != null) {
+                prev = successor.getLeft();
+                successor = successor.getLeft().getRight();
+            }*/
+
+
+            removeSymmetricPredecessor(prev, successor);
+
+            current.key = successor.key;
+
+        }
+
+/*        // this.key == key
         if (compareToKey == 0) {
             if (this.getLeft() == null && this.getRight() == null) {
                 if (parent == null) {
                     parent.key = null;
                 }
-
                 if (parent.getLeft() != null && parent.getLeft() == this) {
                     parent.left = null;
                 } else {
@@ -96,13 +149,11 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
                 }
                 return;
             }
-
             if (this.getRight() == null) {
                 this.key = getLeft().key;
                 this.right = getLeft().getRight();
                 this.left = getLeft().getLeft();
             }
-
             if (this.getLeft() == null) {
                 this.key = getRight().key;
                 this.left = getRight().getLeft();
@@ -110,22 +161,63 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
             }
             removeSymmetricPredecessor(this, key);
         }
-
         else if (compareToKey < 0) {
             getLeft().remove(key);
         }
-
         else if (compareToKey > 0) {
             getRight().remove(key);
+        }*/
+
+        // case 3: node to be deleted has only one child
+        else {
+
+            // choose the child node
+            BinarySearchTree<K> child = null;
+            if (current.left != null) child = current.getLeft();
+            child = current.getRight();
+
+            if (current != this) {
+                if (current == parent.getLeft()) {
+                    parent.left = child;
+                } else {
+                    parent.right = child;
+                }
+            }
+            // if the node to be deleted is a root node then set the root node to the child
+            else {
+                this.key = child.key;
+            }
         }
-
-
-
-
     }
 
-    private void removeSymmetricPredecessor(BinarySearchTree<K> root, K key) {
 
+    private void removeSymmetricPredecessor(BinarySearchTree<K> parent, BinarySearchTree<K> current) {
+        if (parent.left == current) parent.left = null;
+        else parent.right = null;
+    }
+
+    public static void main(String[] args) {
+
+        BinarySearchTree<Integer> binarySearchTree = new BinarySearchTree<Integer>(
+                new BinarySearchTree<Integer>(
+                        new BinarySearchTree<>(null, 8, null),
+                        10,
+                        new BinarySearchTree<>(null, 12, null)),
+                15,
+                new BinarySearchTree<Integer>(
+                        new BinarySearchTree<Integer>(
+                                new BinarySearchTree<>(null, 16, null),
+                                18,
+                                new BinarySearchTree<>(null, 19, null)),
+                        20,
+                        new BinarySearchTree<>(null, 30, null))
+        );
+
+
+
+        binarySearchTree.remove(20);
+
+        binarySearchTree.remove(18);
 
 
     }
