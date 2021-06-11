@@ -34,7 +34,6 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
 
         int compareToKey = this.key.compareTo(key);
 
-<<<<<<< Updated upstream
         // this.key < key
         if (compareToKey < 0) {
             if (right == null) {
@@ -78,29 +77,57 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
         return null;
     }
 
-    public BinarySearchTree<K> removeKey(K key) {
-        if (this.key.compareTo(key) == 0) {
-            if (this.right != null && this.left == null) {
-//                K k = removeSymmetricPredecessor(this);
-                return this;
+    public void remove(K key, BinarySearchTree<K> parent) {
+        if (this.key == null || key == null) return;
+
+        int compareToKey = this.key.compareTo(key);
+
+        // this.key == key
+        if (compareToKey == 0) {
+            if (this.getLeft() == null && this.getRight() == null) {
+                if (parent == null) {
+                    parent.key = null;
+                }
+
+                if (parent.getLeft() != null && parent.getLeft() == this) {
+                    parent.left = null;
+                } else {
+                    parent.right = null;
+                }
+                return;
             }
+
+            if (this.getRight() == null) {
+                this.key = getLeft().key;
+                this.right = getLeft().getRight();
+                this.left = getLeft().getLeft();
+            }
+
+            if (this.getLeft() == null) {
+                this.key = getRight().key;
+                this.left = getRight().getLeft();
+                this.right = getRight().getRight();
+            }
+            removeSymmetricPredecessor(this, key);
         }
-    }
 
-    private K removeSymmetricPredecessor(BinarySearchTree<K> parent) {
+        else if (compareToKey < 0) {
+            getLeft().remove(key);
+        }
 
-        BinarySearchTree<K> cur;
-    }
+        else if (compareToKey > 0) {
+            getRight().remove(key);
+        }
 
-=======
-    public BinarySearchTree<K> remove(K key) {
-        if (this.key == null) return this;
-
-        int compareToKey =
 
 
 
     }
 
->>>>>>> Stashed changes
+    private void removeSymmetricPredecessor(BinarySearchTree<K> root, K key) {
+
+
+
+    }
+
 }
