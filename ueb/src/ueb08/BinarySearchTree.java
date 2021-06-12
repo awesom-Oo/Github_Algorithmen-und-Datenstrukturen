@@ -131,37 +131,7 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
 
         }
 
-/*        // this.key == key
-        if (compareToKey == 0) {
-            if (this.getLeft() == null && this.getRight() == null) {
-                if (parent == null) {
-                    parent.key = null;
-                }
-                if (parent.getLeft() != null && parent.getLeft() == this) {
-                    parent.left = null;
-                } else {
-                    parent.right = null;
-                }
-                return;
-            }
-            if (this.getRight() == null) {
-                this.key = getLeft().key;
-                this.right = getLeft().getRight();
-                this.left = getLeft().getLeft();
-            }
-            if (this.getLeft() == null) {
-                this.key = getRight().key;
-                this.left = getRight().getLeft();
-                this.right = getRight().getRight();
-            }
-            removeSymmetricPredecessor(this, key);
-        }
-        else if (compareToKey < 0) {
-            getLeft().remove(key);
-        }
-        else if (compareToKey > 0) {
-            getRight().remove(key);
-        }*/
+
 
         // case 3: node to be deleted has only one child
         else {
@@ -203,6 +173,25 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
             successor.right = successor.getRight().getRight();
         }
 
+    }
+
+    public BinarySearchTree<K> getMinKey() {
+        BinarySearchTree<K> current = this;
+
+        while (current.getLeft() != null) {
+            current = current.getLeft();
+        }
+
+        return current;
+    }
+
+    public BinarySearchTree<K> getMaxKey() {
+        BinarySearchTree<K> current = this;
+
+        while (current.getRight() != null) {
+
+
+        }
     }
 
     public static void main(String[] args) {
