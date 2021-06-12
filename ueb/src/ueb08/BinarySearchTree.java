@@ -12,6 +12,10 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
         super(left, key, right);
     }
 
+    public BinarySearchTree() {
+        super(null, null, null);
+    }
+
     /**
      * returns the left subtree
      */
@@ -88,7 +92,7 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
 
             // key < current.key
             if (key.compareTo(current.key) < 0) {
-                current = current.getRight();
+                current = current.getLeft();
             }
             // key > current.key
             else {
@@ -119,20 +123,11 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
         // case 2: node to be deleted has two children
         else if (current.left != null && current.right != null) {
 
-            BinarySearchTree<K> successor = current;
-            BinarySearchTree<K> prev = successor;
-            if (this.key == current.key) successor = successor.getRight();
 
 
-/*            while (successor.left.right != null) {
-                prev = successor.getLeft();
-                successor = successor.getLeft().getRight();
-            }*/
+            removeSymmetricPredecessor(current);
 
 
-            removeSymmetricPredecessor(prev, successor);
-
-            current.key = successor.key;
 
         }
 
@@ -172,7 +167,7 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
         else {
 
             // choose the child node
-            BinarySearchTree<K> child = null;
+            BinarySearchTree<K> child;
             if (current.left != null) child = current.getLeft();
             child = current.getRight();
 
@@ -191,9 +186,23 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
     }
 
 
-    private void removeSymmetricPredecessor(BinarySearchTree<K> parent, BinarySearchTree<K> current) {
-        if (parent.left == current) parent.left = null;
-        else parent.right = null;
+    private void removeSymmetricPredecessor(BinarySearchTree<K> current) {
+
+        BinarySearchTree<K> successor = current.getRight();
+
+
+        while (successor.left != null) {
+            successor = successor.getLeft();
+        }
+
+        current.key = successor.key;
+
+        if (successor.right != null) {
+            successor.key = successor.getRight().key;
+            successor.left = successor.getRight().getLeft();
+            successor.right = successor.getRight().getRight();
+        }
+
     }
 
     public static void main(String[] args) {
