@@ -189,9 +189,65 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
         BinarySearchTree<K> current = this;
 
         while (current.getRight() != null) {
+            current = current.getRight();
+        }
 
+        return current;
+    }
+
+    public BinarySearchTree<K> getPredecessor(BinarySearchTree<K> node) {
+
+        BinarySearchTree<K> current = this;
+        BinarySearchTree<K> pred = null;
+
+
+        while (true) {
+            if (node.key.compareTo(current.key) < 0) {
+                current = current.getLeft();
+            }
+
+            else if(node.key.compareTo(current.key) > 0) {
+                pred = current;
+                current = current.getRight();
+            } else {
+                if (current.left != null) {
+                    pred = getMaxKey();
+                }
+                break;
+            }
+
+            if (current == null) return null
 
         }
+
+        return pred;
+    }
+
+    public BinarySearchTree<K> getSuccessor(BinarySearchTree<K> node) {
+
+        BinarySearchTree<K> current = this;
+        BinarySearchTree<K> successor = null;
+
+        while (true) {
+
+            // if the given key is less than the root visit the left subtree
+            if (node.key.compareTo(current.key) < 0) {
+                successor = current;
+                current = current.getLeft();
+            }
+
+            else if (node.key.compareTo(current.key) > 0) {
+                current = current.getRight();
+            } else {
+                if (current.right != null) {
+                    successor = getMinKey();
+                }
+                break;
+            }
+
+            if (current == null) return null;
+        }
+        return successor;
     }
 
     public static void main(String[] args) {
