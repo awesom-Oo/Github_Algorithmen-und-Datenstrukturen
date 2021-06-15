@@ -216,7 +216,7 @@ public class BinarySearchTree<K extends Comparable<K>> extends BinaryTree<K> {
                 break;
             }
 
-            if (current == null) return null
+            if (current == null) return null;
 
         }
 
