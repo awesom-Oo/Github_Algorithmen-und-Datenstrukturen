@@ -181,8 +181,7 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
     private Node<K> findNodeSmallestElem(Node<K> parent) {
         Node<K> curr = parent;
 
-        while (true) {
-            if (curr.isLeaf()) break;
+        while (!curr.isLeaf()) {
             curr = curr.firstChild();
         }
         return curr;
@@ -191,8 +190,7 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
     private Node<K> findNodeLargestElem(Node<K> parent) {
         Node<K> curr = parent;
 
-        while (true) {
-            if (curr.isLeaf()) break;
+        while (!curr.isLeaf()) {
             curr = curr.lastChild();
         }
 
