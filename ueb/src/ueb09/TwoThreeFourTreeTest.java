@@ -12,8 +12,8 @@ public class TwoThreeFourTreeTest {
     @BeforeAll
     public static void SetUp() {
         tree = new TwoThreeFourTree<>();
-        tree.add(4);
-        tree.add(11);
+        tree.insert(4);
+        tree.insert(11);
     }
 
     @Test

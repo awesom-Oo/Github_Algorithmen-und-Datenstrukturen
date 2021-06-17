@@ -209,15 +209,15 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
         return curr;
     }
 
-    public void add(K element) {
+    public void insert(K key) {
 
         Node<K> curr = root;
-        K temp = element;
+        K temp = key;
 
         while (!curr.isLeaf()) {
             if (curr.isFull()) {
                 split(curr);
-                curr = getNextChild(curr.getParent(), element);
+                curr = getNextChild(curr.getParent(), key);
             } else {
                 curr.addNewElem(temp); 
             }
@@ -278,6 +278,21 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
         rightNode.addNewElem(elementC);
         rightNode.connectChild(0, child2);
         rightNode.connectChild(1, child3);
+    }
+
+    public boolean searchKey(K key) {
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        TwoThreeFourTree<Integer> tree = new TwoThreeFourTree<>();
+        tree.insert(4);
+        tree.insert(11);
+
+        Integer min = tree.getMin();
+
+        System.out.println("Hello");
     }
 
 
