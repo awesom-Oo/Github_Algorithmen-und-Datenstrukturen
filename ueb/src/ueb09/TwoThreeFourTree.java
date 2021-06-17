@@ -9,7 +9,12 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
         private static final int ORDER = 4;
         private int numElem=0;
 
-        private Comparator<K> comparator;
+        public final Comparator<K> COMPARATOR = new Comparator<K>() {
+            @Override
+            public int compare(K o1, K o2) {
+                return ((Comparable<K>) o1).compareTo(o2);
+            }
+        };
 
         // holds reference to children the ode might have
         private Node<K>[] childArray = new Node[ORDER];
@@ -94,7 +99,7 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
                 if (elemArray[i] == null) {
                     break;
                 }
-                else if(comparator.compare(elemArray[i], element) == 0) {
+                else if(COMPARATOR.compare(elemArray[i], element) == 0) {
                     temp = i;
                 }
             }
@@ -127,7 +132,7 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
                 } else {
                     K temp = elemArray[i];
 
-                    if (comparator.compare(elem, temp) < 0) {
+                    if (COMPARATOR.compare(elem, temp) < 0) {
                         elemArray[i+1] = elemArray[i];
                     } else {
                         elemArray[i+1] = elem;
@@ -167,8 +172,15 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
     }
 
     private Node<K> root = new Node<>();
+    public final Comparator<K> COMPARATOR = new Comparator<K>() {
+        @Override
+        public int compare(K o1, K o2) {
+            return ((Comparable<K>) o1).compareTo(o2);
+        }
+    };
 
-    public TwoThreeFourTree() { }
+    public TwoThreeFourTree() {
+    }
 
     public K getMax() {
         return findNodeLargestElem(root).getLargestElement();
@@ -196,6 +208,86 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
 
         return curr;
     }
+
+    public void add(K element) {
+
+        Node<K> curr = root;
+        K temp = element;
+
+        while (!curr.isLeaf()) {
+            if (curr.isFull()) {
+                split(curr);
+                curr = getNextChild(curr.getParent(), element);
+            } else {
+                curr.addNewElem(temp); 
+            }
+        }
+        curr.addNewElem(temp);
+    }
+
+    private Node<K> getNextChild(Node<K> node, K element) {
+        int i;
+
+        int numElem  = node.getNumElem();
+
+        for (i = 0; i < numElem; i++) {
+            if (COMPARATOR.compare(element, node.getElement(i)) < 0) {
+                return node.getChild(i);
+            }
+        }
+
+        return node.getChild(numElem);
+    }
+
+    private void split(Node<K> node) {
+        K elementB, elementC;
+        Node<K> parent, child2, child3;
+
+        //two right most items are removed from the node and stored
+        int index;
+
+        elementC = node.remove();
+        elementB = node.remove();
+
+        child2 = node.disconnectChild(2);
+        child3 = node.disconnectChild(3);
+
+        Node<K> rightNode = new Node<>();
+
+        if (node == root) {
+            root = new Node<>();
+            parent = root;
+            root.connectChild(0, node);
+        }
+
+        else {
+            parent = node.getParent();
+        }
+
+        index = parent.addNewElem(elementB);
+
+        int numbElem = parent.getNumElem();
+
+        for (int i = numbElem-1; i > index; i--) {
+            Node temp = parent.disconnectChild(i);
+            parent.connectChild(i+1, temp);
+        }
+
+        parent.connectChild(index+1, rightNode);
+
+        rightNode.addNewElem(elementC);
+        rightNode.connectChild(0, child2);
+        rightNode.connectChild(1, child3);
+    }
+
+    public static void main(String[] args) {
+        TwoThreeFourTree<Integer> tree = new TwoThreeFourTree<>();
+
+        tree.add(12);
+        tree.add(11);
+        tree.add(9);
+    }
+
 
 
 }
