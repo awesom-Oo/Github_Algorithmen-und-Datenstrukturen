@@ -7,10 +7,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TwoThreeFourTreeTest {
 
-    TwoThreeFourTree<Integer> tree;
+    private static TwoThreeFourTree<Integer> tree;
 
     @BeforeAll
-    public void SetUp() {
+    public static void SetUp() {
         tree = new TwoThreeFourTree<>();
         tree.add(4);
         tree.add(11);

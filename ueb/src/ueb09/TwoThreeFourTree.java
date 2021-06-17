@@ -280,13 +280,6 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
         rightNode.connectChild(1, child3);
     }
 
-    public static void main(String[] args) {
-        TwoThreeFourTree<Integer> tree = new TwoThreeFourTree<>();
-
-        tree.add(12);
-        tree.add(11);
-        tree.add(9);
-    }
 
 
 
