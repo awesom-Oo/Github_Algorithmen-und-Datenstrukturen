@@ -170,15 +170,15 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
 
     public TwoThreeFourTree() { }
 
-    private K getMax() {
+    public K getMax() {
         return findNodeLargestElem(root).getLargestElement();
     }
 
-    private K getMin() {
+    public K getMin() {
         return findNodeSmallestElem(root).getSmallestElement();
     }
 
-    private Node<K> findNodeSmallestElem(Node<K> parent) {
+    public Node<K> findNodeSmallestElem(Node<K> parent) {
         Node<K> curr = parent;
 
         while (!curr.isLeaf()) {
@@ -187,7 +187,7 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
         return curr;
     }
 
-    private Node<K> findNodeLargestElem(Node<K> parent) {
+    public Node<K> findNodeLargestElem(Node<K> parent) {
         Node<K> curr = parent;
 
         while (!curr.isLeaf()) {
