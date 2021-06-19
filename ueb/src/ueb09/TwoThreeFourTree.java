@@ -1,6 +1,8 @@
 package ueb09;
 
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class TwoThreeFourTree<K extends Comparable<K>> {
 
@@ -16,7 +18,7 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
             }
         };
 
-        // holds reference to children the ode might have
+        // holds reference to children the node might have
         private Node<K>[] childArray = new Node[ORDER];
 
         private K[] elemArray = (K[]) new Object[ORDER-1];
@@ -104,6 +106,18 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
                 }
             }
             return temp;
+        }
+
+        public int getNeighbor(K key, K max) {
+            int index = -1;
+            for (int i = 0; i < ORDER-1; i++) {
+                if (elemArray[i] == null) break;
+                else if ((COMPARATOR.compare(elemArray[i], key) > 0) && (COMPARATOR.compare(elemArray[i], max) < 0)) {
+                    index = i;
+                    break;
+                }
+            }
+            return index;
         }
 
         /**
@@ -245,10 +259,8 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
 
         //two right most items are removed from the node and stored
         int index;
-
         elementC = node.remove();
         elementB = node.remove();
-
         child2 = node.disconnectChild(2);
         child3 = node.disconnectChild(3);
 
@@ -259,11 +271,9 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
             parent = root;
             root.connectChild(0, node);
         }
-
         else {
             parent = node.getParent();
         }
-
         index = parent.addNewElem(elementB);
 
         int numbElem = parent.getNumElem();
@@ -272,7 +282,6 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
             Node temp = parent.disconnectChild(i);
             parent.connectChild(i+1, temp);
         }
-
         parent.connectChild(index+1, rightNode);
 
         rightNode.addNewElem(elementC);
@@ -281,16 +290,77 @@ public class TwoThreeFourTree<K extends Comparable<K>> {
     }
 
     public boolean searchKey(K key) {
+        Node<K> curr = root;
+        int childNum;
+        while(true) {
+            if ((childNum = curr.findElement(key)) != -1) {
+                return true;
+            }
+            else if (curr.isLeaf()) {
+                return false;
+            }
+            else {
+                curr = getNextChild(curr, key);
+            }
+        }
+    }
 
-        return true;
+    public K getNeighbor(K key) {
+        if (key == null) return null;
+
+        K max = getMax();
+        if (COMPARATOR.compare(max, key) <= 0) {
+            return null;
+        }
+
+        Node<K> curr = root;
+        while(true) {
+            int index = curr.getNeighbor(max, key);
+
+            if (index > -1) {
+                max = curr.getElement(index);
+            }
+            if (curr.isLeaf()) {
+                return max;
+            }
+
+            curr = getNextChild(curr, key);
+        }
+    }
+
+    public Iterator<K> rangeQuery(K start, K end) {
+        return new Iterator<K>() {
+            K next;
+            @Override
+            public boolean hasNext() {
+                if (next == null) return false;
+                return true;
+            }
+
+            @Override
+            public K next() {
+                K toReturn = next;
+                if (next == end) next = null;
+                return toReturn;
+            }
+        };
     }
 
     public static void main(String[] args) {
         TwoThreeFourTree<Integer> tree = new TwoThreeFourTree<>();
         tree.insert(4);
         tree.insert(11);
+        tree.insert(9);
+        tree.insert(19);
 
         Integer min = tree.getMin();
+
+        System.out.println(tree.searchKey(11));
+
+        Integer neighbor = tree.getNeighbor(4);
+
+
+        tree.rangeQuery(4, 11);
 
         System.out.println("Hello");
     }
