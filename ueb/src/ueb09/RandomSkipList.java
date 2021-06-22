@@ -9,7 +9,7 @@ public class RandomSkipList<E extends Comparable<E>> {
     private class SkipNode<E extends Comparable<E>> {
 
         private E element;
-        private ArrayList<SkipNode<E>> next;
+        public ArrayList<SkipNode<E>> next;
 
         SkipNode(E element, int height) {
             this.element = element;
