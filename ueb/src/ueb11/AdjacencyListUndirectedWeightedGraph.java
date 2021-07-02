@@ -82,10 +82,12 @@ public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeight
         AdjacencyListUndirectedWeightedGraph<Integer> graph = new AdjacencyListUndirectedWeightedGraph();
 
 
-        graph.addEdge( 1,  2,  3);
-        graph.addEdge( 1,  3,  7);
-        graph.addEdge( 2,  4,  6);
-        graph.addEdge( 3,  4,  9);
+        graph.addNodeElement(1);
+        graph.addNodeElement(2);
+        graph.addNodeElement(3);
+        graph.addNodeElement(4);
+
+        graph.addEdge(1, 2, 7);
 
         System.out.println("Hello");
     }
