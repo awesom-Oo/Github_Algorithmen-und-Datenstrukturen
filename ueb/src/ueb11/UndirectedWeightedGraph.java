@@ -42,7 +42,7 @@ public interface UndirectedWeightedGraph<T> {
      * @throws InvalidNodeException if one of the two elements is not part of the graph
      * @return true, if the edge was removed; false, if the edge did not exist.
      */
-    boolean removeEdge(T t1, T t2) throws InvalidNodeException;
+    boolean removeEdge(T t1, T t2) throws InvalidNodeException, InvalidEdgeException;
 
     final class InvalidEdgeException extends Exception {
 

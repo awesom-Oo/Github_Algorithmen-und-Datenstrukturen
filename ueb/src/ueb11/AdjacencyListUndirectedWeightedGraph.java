@@ -1,34 +1,34 @@
 package ueb11;
 
-import java.lang.reflect.Array;
 import java.util.*;
+
 
 public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeightedGraph<T> {
 
 
      class Edge<T>  {
         private int weight;
-        private T srcNode, destNode;
+        private T destNode;
 
         public Edge(T destNode, int weight) {
             this.destNode = destNode;
             this.weight = weight;
         }
 
-        public Edge(T srcNode, T destNode, int weight) {
+/*        public Edge(T srcNode, T destNode, int weight) {
             this.srcNode = srcNode;
             this.destNode = destNode;
             this.weight = weight;
-        }
+        }*/
 
         public int getWeight() { return weight; }
 
         public T getDestNode() { return destNode; }
 
-        @Override
+/*        @Override
         public String toString() {
             return "{" + srcNode + ", " + destNode + ", " + weight + "} ";
-        }
+        }*/
 
     }
 
@@ -59,11 +59,6 @@ public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeight
         }
 
         this.adjList.remove(element);
-
-        for (T t: this.getAllVertices()) {
-            this.adjList.get(t).remove(element);
-        }
-
         return true;
     }
 
@@ -80,22 +75,31 @@ public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeight
         adjList.get(t1).add(new Edge<T>(t2, weight));
         adjList.get(t2).add(new Edge<T>(t1, weight));
 
-        edges.add(new Edge<T>(t1, t2, weight));
+        //edges.add(new Edge<T>(t1, t2, weight));
 
     }
 
     @Override
-    public boolean removeEdge(T t1, T t2) throws InvalidNodeException {
+    public boolean removeEdge(T t1, T t2) throws InvalidNodeException, InvalidEdgeException {
         if (!this.adjList.containsKey(t1) || !this.adjList.containsKey(t2)) {
             throw new InvalidNodeException("Edge does not exist");
         }
 
-        this.adjList.get(t1).remove(t2);
-        this.adjList.get(t2).remove(t1);
+        for (Map.Entry<T, ArrayList<Edge<T>>> entry : adjList.entrySet()) {
+            Iterator<Edge<T>> arrayListIterator = entry.getValue().iterator();
+
+            while (arrayListIterator.hasNext()) {
+                Edge<T> arrayListEntry = arrayListIterator.next();
+                if (arrayListEntry.destNode.equals(t2) || arrayListEntry.destNode.equals(t1)) {
+                    arrayListIterator.remove();
+                }
+
+            }
+        }
         return true;
     }
 
-    public void kruskal() {
+/*    public void kruskal() {
         PriorityQueue<Edge<T>> result = new PriorityQueue<>();
 
         // add all edges to list, sort the edges on weight
@@ -128,18 +132,18 @@ public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeight
         System.out.println("min");
         printGraph(minspantree); 
         
-    }
+    }*/
 
-    private void printGraph(ArrayList<Edge<T>> minspantree) {
+/*    private void printGraph(ArrayList<Edge<T>> minspantree) {
         for (int i = 0; i < edges.size(); i++) {
             Edge<T> edge = edges.get(i);
             System.out.println("Edge " + i + "source: " + edge.srcNode +
                     "destination " + edge.destNode +
                     "weight: " + edge.weight);
         }
-    }
+    }*/
 
-    private void union(int[] parent, int xSet, int ySet) {
+/*    private void union(int[] parent, int xSet, int ySet) {
 
         int xSetParent = find(parent, xSet);
         int ySetParent = find(parent, ySet);
@@ -153,15 +157,15 @@ public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeight
         }
 
         return srcNode;
-    }
+    }*/
 
-    private void makeSet(int[] parent) {
+/*    private void makeSet(int[] parent) {
         for (int i = 0; i < nodeCount; i++) {
             parent[i] = i;
         }
-    }
+    }*/
 
-    public static void main(String[] args) throws InvalidEdgeException {
+    public static void main(String[] args) throws InvalidEdgeException, InvalidNodeException {
         AdjacencyListUndirectedWeightedGraph<Integer> graph = new AdjacencyListUndirectedWeightedGraph();
 
 
@@ -172,6 +176,10 @@ public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeight
 
 
         graph.addEdge(1, 2, 7);
+        graph.addEdge(3, 4, 4);
+
+        graph.removeEdge(1, 2);
         System.out.println("Hello");
     }
+
 }
