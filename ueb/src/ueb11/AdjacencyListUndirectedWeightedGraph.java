@@ -6,7 +6,7 @@ import java.util.*;
 public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeightedGraph<T> {
 
 
-    class Edge<T>  {
+    static class Edge<T>  {
         private int weight;
         private T srcNode, destNode;
 
@@ -80,7 +80,7 @@ public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeight
     }
 
     @Override
-    public boolean removeEdge(T t1, T t2) throws InvalidNodeException, InvalidEdgeException {
+    public boolean removeEdge(T t1, T t2) throws InvalidNodeException {
         if (!this.adjList.containsKey(t1) || !this.adjList.containsKey(t2)) {
             throw new InvalidNodeException("Edge does not exist");
         }
@@ -131,7 +131,6 @@ public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeight
 
     private void union(HashMap<T, ArrayList<T>> parentnode, T xSet, T ySet) {
 
-
         for (Map.Entry<T, ArrayList<T>> entry : parentnode.entrySet()) {
             if (entry.getKey().equals(xSet) || entry.getKey().equals(ySet)) {
                 ArrayList<T> value = entry.getValue();
@@ -153,7 +152,7 @@ public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeight
 
 
     private T find(HashMap<T, ArrayList<T>> parentnodes, T srcNode) {
-        int index=0;
+
         for (Map.Entry<T, ArrayList<T>> entry : parentnodes.entrySet()) {
             T key = entry.getKey();
             if (key.equals(srcNode)) {
@@ -172,7 +171,6 @@ public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeight
 
     private HashMap<T, ArrayList<T>> makeSet(HashMap<T, ArrayList<T>> parentnodes) {
 
-
         for (Map.Entry<T, ArrayList<Edge<T>>> entry: adjList.entrySet()) {
             T key = entry.getKey();
             parentnodes.put(key, new ArrayList<>());
@@ -190,7 +188,7 @@ public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeight
         }
     }
 
-    public static void main(String[] args) throws InvalidEdgeException, InvalidNodeException {
+    public static void main(String[] args) throws InvalidEdgeException {
         AdjacencyListUndirectedWeightedGraph<Integer> graph = new AdjacencyListUndirectedWeightedGraph();
 
 
