@@ -1,3 +1,4 @@
+/*
 package ueb07;
 
 
@@ -41,11 +42,13 @@ public class HeapQueue<E> implements SimpleFIFOQueue<E>{
     }
 
 
-    /**
+    */
+/**
      * Removes the first element in the queue and returns it.
      *
      * @return The element which, among all elements currently in this queue, was added first.
-     */
+     *//*
+
     @Override
     public E poll() throws NoSuchElementException {
         if (currentSize == 0)
@@ -54,11 +57,13 @@ public class HeapQueue<E> implements SimpleFIFOQueue<E>{
         return queue.remove().data;
     }
 
-    /**
+    */
+/**
      * Adds the element to this queue.
      *
      * @param element The element to be added to this queue.
-     */
+     *//*
+
     @Override
     public void add(E element) throws IllegalStateException {
         if (currentSize >= maxSize)
@@ -76,11 +81,13 @@ public class HeapQueue<E> implements SimpleFIFOQueue<E>{
         currentSize++;
     }
 
-    /**
+    */
+/**
      * Returns the top element of this stack without removing it.
      *
      * @return The element on top of this stack.
-     */
+     *//*
+
     @Override
     public E peek() throws NoSuchElementException {
         if (currentSize == 0)
@@ -88,9 +95,11 @@ public class HeapQueue<E> implements SimpleFIFOQueue<E>{
         return queue.peek().data;
     }
 
-    /**
+    */
+/**
      * Removes all elements from this stack.
-     */
+     *//*
+
     @Override
     public void clear() {
         currentSize = 0;
@@ -98,23 +107,28 @@ public class HeapQueue<E> implements SimpleFIFOQueue<E>{
         queue = new PriorityQueue<>();
     }
 
-    /**
+    */
+/**
      * Tests whether this stack is empty.
      *
      * @return true, if this stack does not contain any elements; false otherwise.
-     */
+     *//*
+
     @Override
     public boolean isEmpty() {
         return currentSize == 0;
     }
 
-    /**
+    */
+/**
      * Returns the maximum capacity of this stack.
      *
      * @return The maximum capacity of this stack.
-     */
+     *//*
+
     @Override
     public int capacity() {
         return maxSize;
     }
 }
+*/

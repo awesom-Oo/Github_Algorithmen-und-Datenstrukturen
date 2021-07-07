@@ -99,9 +99,6 @@ class AdjacencyListUndirectedGraphTest {
 
         System.out.println(graph);
 
-
-
-
     }
 
     @Test

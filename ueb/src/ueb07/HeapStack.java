@@ -1,3 +1,4 @@
+/*
 package ueb07;
 
 import java.util.NoSuchElementException;
@@ -88,3 +89,4 @@ public class HeapStack<E> implements SimpleStack<E> {
     }
 
 }
+*/

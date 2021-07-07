@@ -31,7 +31,7 @@ public interface UndirectedWeightedGraph<T> {
      * @param weight the weight of the new edge
      * @throws InvalidEdgeException if one of the two elements is not part of the graph
      */
-    void addEdge(T t1, T t2, int weight) throws InvalidEdgeException;
+    void addEdge(T t1, T t2, int weight) throws InvalidEdgeException, InvalidEdgeException;
 
 
     /**

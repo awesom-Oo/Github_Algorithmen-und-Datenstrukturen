@@ -1,13 +1,16 @@
+/*
 package ueb07;
 
 import java.util.*;
 
 public class HeapCompare {
 
-    /**
+    */
+/**
      * Speed tests
      * @param args -
-     */
+     *//*
+
     public static void main(String[] args) {
         HeapStack<Integer> h = new HeapStack<>(1000000);
         Stack<Integer> s = new Stack<>();
@@ -111,11 +114,13 @@ public class HeapCompare {
         System.out.println("ArrayDeque leeren: " + (endTimer - startTimer));
     }
 
-    /**
+    */
+/**
      * Creates an random Integerarray
      * @param i size of the integer
      * @return the random array
-     */
+     *//*
+
     public static int[] randomArray(int i) {
         int[] ints = new int[i];
         for(int temp = 0; temp < i; i++) {
@@ -124,3 +129,4 @@ public class HeapCompare {
         return ints;
     }
 }
+*/
