@@ -1,7 +1,6 @@
 package ueb05;
 
 import com.sun.jdi.Value;
-import ueb04.ListSet;
 
 import java.util.Iterator;
 
@@ -69,12 +68,29 @@ public class LinkedList<T> implements Iterable<T> {
     }
 
     public boolean remove(int index) {
-        int count=0;
+        int count=1;
 
         if (head==null) return false;
 
+        if (index < 0) return false;
 
+        if (index == 0) {
+            head = head.next;
+            return true;
+        }
 
+        Node<T> tmp = head;
+        while (tmp.next != null) {
+            if (index == count) {
+                tmp.next = tmp.next.next;
+                return true;
+            }
+
+            tmp = tmp.next;
+            count++;
+        }
+
+        return false;
     }
 
     public Value get(int index) {

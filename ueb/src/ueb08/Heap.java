@@ -34,7 +34,7 @@ public class Heap<T> {
     /**
      * Creates and returns a new Heap, by using the Comparable interface for the Comparator
      */
-    public static <E extends Comparable<? super E>> Heap<E> fromComparable() {
+    public  <E extends Comparable<? super E>> Heap<E> fromComparable() {
         return new Heap<>(Comparable::compareTo);
     }
 

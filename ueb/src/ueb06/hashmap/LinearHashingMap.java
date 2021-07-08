@@ -1,28 +1,30 @@
-/*
-package hashmap;
+package ueb06.hashmap;
+
+
+import hashmap.HashFunction;
+import hashmap.Map;
+import hashmap.MapEntry;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-*/
 /**
  * This class implements a map that uses linear hashing to expand the underlying hash table
  *
  * @param <K>
  * @param <V>
- *//*
-
+ */
 public class LinearHashingMap<K, V> implements Map<K, V> {
-    
-	private final int initialBucketCount;
-	
-	private final double alphaMax;
-	
-	private final List<List<MapEntry<K, V>>> buckets;
 
-	private final HashFunction<K> hashFunction;
+    private final int initialBucketCount;
+
+    private final double alphaMax;
+
+    private final List<List<MapEntry<K, V>>> buckets;
+
+    private final HashFunction<K> hashFunction;
 
     private int currentLevel = 0;
 
@@ -30,63 +32,55 @@ public class LinearHashingMap<K, V> implements Map<K, V> {
 
     private int numberOfElements;
 
-    
+
 
     public LinearHashingMap(final int initialBucketCount, double alphaMax, HashFunction<K> h) {
         this.initialBucketCount = initialBucketCount;
         this.alphaMax = alphaMax;
 
         buckets = new ArrayList<>();
-        
+
         for (int i = 0; i < initialBucketCount; i++)
             buckets.add(i, new LinkedList<MapEntry<K, V>>());
 
         hashFunction = h;
     }
 
-    */
-/**
+    /**
      * get the address for the given key with respect to current level
      * @param key
      * @return the address for the given key with respect to current level
-     *//*
-
+     */
     public int getAddress(K key) {
-    	//TODO
+        //TODO
         return 0;
     }
-    
-    */
-/**
+
+    /**
      * get the current alpha value
      * @return the current alpha value
-     *//*
-
+     */
     public double getAlpha() {
-    	//TODO
-    	return 0;
+        //TODO
+        return 0;
     }
 
-    */
-/**
+    /**
      * check if number of elements in hash table exceeds threshold
      * @return true if the hash table needs to be extended
-     *//*
-
+     */
     public boolean checkOverflow() {
-    	//TODO
-    	return false;
+        //TODO
+        return false;
     }
-   
-    */
-/**
-     * expands the hash table
-     *//*
 
+    /**
+     * expands the hash table
+     */
     protected void split() {
-    	//TODO
+        //TODO
     }
-    
+
     public V get(K key) {
         //TODO
         return null;
@@ -102,9 +96,9 @@ public class LinearHashingMap<K, V> implements Map<K, V> {
                 return;
             }
         }
-        
+
         buckets.get(getAddress(key)).add(new MapEntry<K, V>(key, value));
-        
+
         numberOfElements++;
         if (checkOverflow()) split();
         return;
@@ -125,7 +119,7 @@ public class LinearHashingMap<K, V> implements Map<K, V> {
         }
         return;
     }
-    
+
     public String toString(){
         StringBuilder str = new StringBuilder();
         for (Iterable<?> bucket : buckets) {
@@ -138,6 +132,5 @@ public class LinearHashingMap<K, V> implements Map<K, V> {
 
         return str.toString();
     }
-    
+
 }
-*/

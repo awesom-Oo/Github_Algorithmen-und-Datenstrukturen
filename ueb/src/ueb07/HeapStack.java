@@ -1,4 +1,3 @@
-/*
 package ueb07;
 
 import java.util.NoSuchElementException;
@@ -73,20 +72,19 @@ public class HeapStack<E> implements SimpleStack<E> {
     }
 
     public static void main(String[] args) {
-        HeapStack<Integer> integerHeapStack = new HeapStack<Integer >(6);
-
-        integerHeapStack.push(2);
-        integerHeapStack.push(16);
-        integerHeapStack.push(9);
-        integerHeapStack.push(12);
-
-        System.out.println(integerHeapStack.peek());
-        System.out.println(integerHeapStack.pop());
-        System.out.println(integerHeapStack.peek());
-        System.out.println(integerHeapStack.pop());
-        System.out.println(integerHeapStack.peek());
+//        HeapStack<Integer> integerHeapStack = new HeapStack<Integer >(6);
+//
+//        integerHeapStack.push(2);
+//        integerHeapStack.push(16);
+//        integerHeapStack.push(9);
+//        integerHeapStack.push(12);
+//
+//        System.out.println(integerHeapStack.peek());
+//        System.out.println(integerHeapStack.pop());
+//        System.out.println(integerHeapStack.peek());
+//        System.out.println(integerHeapStack.pop());
+//        System.out.println(integerHeapStack.peek());
 
     }
 
 }
-*/
