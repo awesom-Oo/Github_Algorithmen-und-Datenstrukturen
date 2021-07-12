@@ -1,8 +1,9 @@
 package ueb06.hashmap;
 
-import hashmap.HashFunction;
-import hashmap.Map;
-import hashmap.MapEntry;
+
+import ueb06.hashmap.HashFunction;
+import ueb06.hashmap.Map;
+import ueb06.hashmap.MapEntry;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

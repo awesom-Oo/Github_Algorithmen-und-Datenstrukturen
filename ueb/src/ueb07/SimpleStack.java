@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 /**
  * A simple stack interface for stacks that can hold a maximum of INTEGER.MAX_VALUE elements.
  */
-public interface SimpleStack<E> {
+interface SimpleStack<E> {
 
     /**
      * Removes the top element of this stack and returns it.

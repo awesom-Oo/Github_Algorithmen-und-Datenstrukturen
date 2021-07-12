@@ -10,8 +10,8 @@ import java.util.LinkedList;
  */
 public class BinTree<T> {
 
-    protected BinTree<T> left, right;
-    protected T key;
+    public BinTree<T> left, right;
+    public T key;
 
     /**
      * creates a new instance

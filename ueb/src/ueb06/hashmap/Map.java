@@ -1,4 +1,4 @@
-package hashmap;
+package ueb06.hashmap;
 
 /**
  * Interface for a simplistic Map

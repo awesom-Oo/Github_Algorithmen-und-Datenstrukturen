@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 /**
  * A simple FIFO (first-in first-out) queue interface for stacks that can hold a maximum of INTEGER.MAX_VALUE elements.
  */
-public interface SimpleFIFOQueue<E> {
+interface SimpleFIFOQueue<E> {
 
     /**
      * Removes the first element in the queue and returns it.

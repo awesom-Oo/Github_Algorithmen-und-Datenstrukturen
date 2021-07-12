@@ -5,7 +5,7 @@ package ueb08;
  *
  * @param <K>
  */
-public class BinaryTree<K> {
+class BinaryTree<K> {
 	public BinaryTree<K> left, right;
 	protected K key;
 	

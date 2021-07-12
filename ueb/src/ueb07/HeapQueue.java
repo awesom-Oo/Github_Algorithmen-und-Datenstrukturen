@@ -5,114 +5,130 @@ import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 
-public class HeapQueue<E> implements SimpleFIFOQueue<E>{
+public class HeapQueue<E> implements SimpleFIFOQueue<E> {
 
+    private static class Node<E> {
+        private E element ;
+        private Integer insertion;
 
-    private PriorityQueue<Node<E>> queue;
-    private final int maxSize;
-    private int currentSize;
-    private int cPrio;
-
-    private class Node<E> {
-
-        private E data;
-        private int prio;
-
-        public Node(E data, int prio) {
-            this.data = data;
-            this.prio = prio;
+        public Node(E data, Integer prio) {
+            this.element = data;
+            this.insertion = prio;
         }
 
-        public Integer getPrio() {
-            return prio;
-        }
-    }
-
-    public HeapQueue(int maxSize) {
-        queue = new PriorityQueue<Node<E>>(new Comparator<Node<E>>() {
-            @Override
-            public int compare(Node<E> o1, Node<E> o2) {
-                return o1.getPrio().compareTo(o2.getPrio());
-            }
-        });
-        this.maxSize = maxSize;
-        currentSize = 0;
-        cPrio = Integer.MIN_VALUE;
     }
 
 
-/*
-     * Removes the first element in the queue and returns it.
-     *
-     * @return The element which, among all elements currently in this queue, was added first.*/
+    private PriorityQueue<Node<E>> priorityQueue = new PriorityQueue<>(new Comparator<Node<E>>() {
+        @Override
+        public int compare(Node<E> o1, Node<E> o2) {
+            return o1.insertion.compareTo(o2.insertion);
+        }
+    });
 
+    private final int maximumCapacity;
+    private boolean overFLowQueueActive=false;
+    private PriorityQueue<Node<E>> overFlowQueue;
+
+    private int capacity=0;
+    private int allInserts=0;
+
+    public HeapQueue(int maximumCapacity) {
+        this.maximumCapacity = maximumCapacity;
+    }
 
     @Override
     public E poll() throws NoSuchElementException {
-        if (currentSize == 0)
+        switchQueues();
+
+        if (priorityQueue.isEmpty())
             throw new NoSuchElementException();
-        currentSize--;
-        return queue.remove().data;
+
+        capacity--;
+        return priorityQueue.poll().element;
     }
 
-/*
-     * Adds the element to this queue.
-     *
-     * @param element The element to be added to this queue.*/
-
+    private void switchQueues() {
+        if (priorityQueue.isEmpty() && overFLowQueueActive) {
+            priorityQueue = overFlowQueue;
+            overFlowQueue = null;
+            overFLowQueueActive = false;
+        }
+    }
 
     @Override
     public void add(E element) throws IllegalStateException {
-        if (currentSize >= maxSize)
+        if (capacity > maximumCapacity)
             throw new IllegalStateException();
-        if (cPrio == Integer.MAX_VALUE) {
-            PriorityQueue<Node<E>> tmp = new PriorityQueue();
-            int i = 0;
-            for (; i < currentSize; i++) {
-                tmp.add(new Node<>(queue.remove().data , Integer.MIN_VALUE + i));
-            }
-            cPrio = Integer.MIN_VALUE + i + 1;
+
+        capacity++;
+        if (overFLowQueueActive)
+            overFlowQueue.add(new Node<>(element, allInserts--));
+        else
+            priorityQueue.add(new Node<>(element, allInserts++));
+
+        if (!overFLowQueueActive && allInserts == Integer.MIN_VALUE) {
+            overFLowQueueActive = true;
+            allInserts = 0;
+            overFlowQueue = new PriorityQueue<Node<E>>((Comparator<Node<E>>)
+                    (o1, o2) -> Integer.compare(o2.insertion, o1.insertion));
         }
-        queue.add(new Node<>(element, cPrio));
-        cPrio++;
-        currentSize++;
     }
-
-/*
-     * Returns the top element of this stack without removing it.
-     *
-     * @return The element on top of this stack.*/
-
 
     @Override
     public E peek() throws NoSuchElementException {
-        if (currentSize == 0)
+        switchQueues();
+
+        if (priorityQueue.isEmpty())
             throw new NoSuchElementException();
-        return queue.peek().data;
+
+        return priorityQueue.peek().element;
     }
-
-/*
-     * Removes all elements from this stack.*/
-
 
     @Override
     public void clear() {
-        currentSize = 0;
-        cPrio = Integer.MIN_VALUE;
-        queue = new PriorityQueue<>();
+        priorityQueue.clear();
     }
-
-
 
     @Override
     public boolean isEmpty() {
-        return currentSize == 0;
+        switchQueues();
+        return priorityQueue.isEmpty();
+    }
+
+    @Override
+    public int capacity() {
+        return maximumCapacity;
     }
 
 
 
-    @Override
-    public int capacity() {
-        return maxSize;
+
+    public static void main(String[] args) {
+        HeapQueue<Integer> integerHeapQueue = new HeapQueue<>(10);
+
+        integerHeapQueue.add(5);
+        integerHeapQueue.add(10);
+        integerHeapQueue.add(1);
+        integerHeapQueue.add(3);
+        integerHeapQueue.add(50);
+        integerHeapQueue.add(500);
+        integerHeapQueue.add(60);
+        integerHeapQueue.add(30);
+        integerHeapQueue.add(40);
+
+
+
+
+        System.out.println("Test");
+
+        System.out.println(integerHeapQueue.peek());
+        System.out.println(integerHeapQueue.poll());
+        System.out.println(integerHeapQueue.peek());
+        System.out.println(integerHeapQueue.poll());
+        System.out.println(integerHeapQueue.peek());
+        System.out.println(integerHeapQueue.poll());
+        System.out.println(integerHeapQueue.peek());
+        System.out.println(integerHeapQueue.poll());
     }
 }

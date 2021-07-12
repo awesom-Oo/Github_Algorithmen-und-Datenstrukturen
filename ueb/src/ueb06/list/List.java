@@ -1,4 +1,4 @@
-package list;
+package ueb06.list;
 /**
  * Interface for lists.
  * @param <T> The list's element type.

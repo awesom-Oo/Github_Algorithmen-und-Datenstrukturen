@@ -73,10 +73,4 @@ public class LRUBuffer<Key, Value> {
             }
         }
     }
-
-    public static void main(String[] args) {
-
-
-    }
-
 }

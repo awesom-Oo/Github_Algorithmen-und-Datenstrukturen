@@ -1,4 +1,3 @@
-/*
 package ueb07;
 
 import java.util.NoSuchElementException;
@@ -92,4 +91,3 @@ class HeapStackTest {
         });
     }
 }
-*/

@@ -1,5 +1,4 @@
-/*
-package list;
+package ueb06.list;
 
 import java.util.Iterator;
 
@@ -9,23 +8,11 @@ public class RecursiveList<E> implements List<E>, Iterable<E> {
         private T item;
         private ListNode<T> next;
 
-        */
-/**
-         * constructor to build a node with no successor
-         * @param element the value to be stored by this node
-         *//*
 
         private ListNode(T element) {
             item = element;
             next = null;
         }
-
-        */
-/**
-         * constructor to build a node with specified (maybe null) successor
-         * @param element the value to be stored by this node
-         * @param reference the next field for this node
-         *//*
 
         private ListNode(T element, ListNode<T> reference) {
             item = element;
@@ -36,11 +23,6 @@ public class RecursiveList<E> implements List<E>, Iterable<E> {
     // this is the start of the linked list.  If the list is empty, it is null
     private ListNode<E> head = null;
 
-    */
-/** recursive private method, called by the public wrapper method
-     * @param current the head of the list (may be null if we are at the end)
-     * @return the size of the list
-     *//*
 
     private int size(ListNode<E> current) {
         if (current == null) {
@@ -59,12 +41,6 @@ public class RecursiveList<E> implements List<E>, Iterable<E> {
         head = new ListNode<E>(element, head);
     }
 
-    */
-/** recursive private method, called by the public wrapper method
-     * @param node the head of the list (may be null if we are at the end)
-     * @param index the number of nodes to skip before removing
-     * @return the list, with the value removed
-     *//*
 
     private ListNode<E> remove(ListNode<E> node, int index) {
         // Precondition: element exists
@@ -82,13 +58,6 @@ public class RecursiveList<E> implements List<E>, Iterable<E> {
         return element;
     }
 
-    */
-/**
-     *
-     * @param node the head of the list, maybe null
-     * @param element the value to be searched
-     * @return search is succesful
-     *//*
 
     private boolean contains(ListNode<E> node, E element){
         if (node == null) return false;
@@ -100,14 +69,6 @@ public class RecursiveList<E> implements List<E>, Iterable<E> {
         return contains(head, element);
     }
 
-    */
-/**
-     * recursive private method to get the node at a position
-     * @param node the head of the list, maybe null
-     * @param index the position in the list
-     * @return the lement found at the position
-     * @throws IndexOutOfBoundsException
-     *//*
 
     private E get(ListNode<E> node, int index) throws IndexOutOfBoundsException {
         if (index == 0) {
@@ -124,12 +85,6 @@ public class RecursiveList<E> implements List<E>, Iterable<E> {
         return get(head, index);
     }
 
-
-    */
-/** recursive private method, called by the public wrapper method
-     * @param node the head of the list (may be null if we are at the end)
-     * @return the string representing the list
-     *//*
 
     private String toString(ListNode<E> node) {
         if (node == null) {
@@ -163,4 +118,4 @@ public class RecursiveList<E> implements List<E>, Iterable<E> {
             }
         };
     }
-}*/
+}
