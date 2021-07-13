@@ -5,7 +5,6 @@ import java.util.*;
 
 public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeightedGraph<T> {
 
-
     static class Edge<T>  {
         private int weight;
         private T srcNode, destNode;
@@ -48,7 +47,7 @@ public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeight
         }
 
         this.adjList.put(element, new ArrayList<>());
-        nodeCount += 1;
+        nodeCount ++;
         return true;
     }
 
@@ -59,10 +58,11 @@ public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeight
         }
 
         this.adjList.remove(element);
+        nodeCount --;
         return true;
     }
 
-    private Iterable<T> getAllVertices() {
+    private Iterable<T> getAllNodes() {
         return this.adjList.keySet();
     }
 
@@ -76,7 +76,6 @@ public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeight
         adjList.get(t2).add(new Edge<T>(t1, weight));
 
         edges.add(new Edge<T>(t1, t2, weight));
-
     }
 
     @Override
@@ -85,110 +84,74 @@ public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeight
             throw new InvalidNodeException("Edge does not exist");
         }
 
-        for (Map.Entry<T, ArrayList<Edge<T>>> entry : adjList.entrySet()) {
-            Iterator<Edge<T>> arrayListIterator = entry.getValue().iterator();
+        Iterator<Edge<T>> t1Iter = adjList.get(t1).iterator();
+        Iterator<Edge<T>> t2Iter = adjList.get(t2).iterator();
 
-            while (arrayListIterator.hasNext()) {
-                Edge<T> arrayListEntry = arrayListIterator.next();
-                if (arrayListEntry.destNode.equals(t2) || arrayListEntry.destNode.equals(t1)) {
-                    arrayListIterator.remove();
-                }
-
-            }
+        while (t1Iter.hasNext()) {
+            Edge<T> t1Entry = t1Iter.next();
+            if (t1Entry.destNode.equals(t2))
+                adjList.get(t1).remove(t1Entry);
         }
+
+        while (t2Iter.hasNext()) {
+            Edge<T> t2Entry = t1Iter.next();
+            if (t2Entry.destNode.equals(t2))
+                adjList.get(t2).remove(t2Entry);
+        }
+
+        this.edges.removeIf(entry -> entry.srcNode == t1 && entry.destNode == t2);
+
         return true;
     }
 
-    public void kruskal() {
-        PriorityQueue<Edge<T>> result = new PriorityQueue<>(edges.size(), Comparator.comparingInt(o -> o.weight));
+    public ArrayList<Edge<T>> kruskal() {
+        ArrayList<Edge<T>> result = new ArrayList<>();
 
-        // add all edges to list, sort the edges on weight
-        result.addAll(edges);
+        Map<T, T> parent = new HashMap<>();
 
-        HashMap<T, ArrayList<T>> parentnode = new HashMap<>();
-        makeSet(parentnode);
-        ArrayList<Edge<T>> minSpanTree= new ArrayList<>();
+        makeSet(parent);
 
-        int index = 0;
+        int index=0;
 
-        while (index < nodeCount-1) {
-            Edge<T> edge = result.remove();
+        Collections.sort(edges, Comparator.comparingInt(e -> e.weight));
 
-            T xSet = find(parentnode, edge.srcNode);
-            T ySet = find(parentnode, edge.destNode);
+        while (result.size() != nodeCount-1) {
+            Edge<T> nextEdge = edges.get(index++);
 
-            if (xSet != ySet) {
-                minSpanTree.add(edge);
-                index += 1;
-                union(parentnode, xSet, ySet);
-            }
+            T x = find(parent, nextEdge.srcNode);
+            T y = find(parent, nextEdge.destNode);
 
-        }
-
-        printGraph(minSpanTree);
-    }
-
-
-    private void union(HashMap<T, ArrayList<T>> parentnode, T xSet, T ySet) {
-
-        for (Map.Entry<T, ArrayList<T>> entry : parentnode.entrySet()) {
-            if (entry.getKey().equals(xSet) || entry.getKey().equals(ySet)) {
-                ArrayList<T> value = entry.getValue();
-
-                if (parentnode.get(xSet).size() >= parentnode.get(ySet).size()) {
-                    value.add(ySet);
-                    parentnode.remove(ySet);
-                    break;
-                }
-
-                if (entry.getKey().equals(ySet)) {
-                    value.add(xSet);
-                    parentnode.remove(xSet);
-                    break;
-                }
+            if (!x.equals(y)) {
+                result.add(nextEdge);
+                union(parent, x, y);
             }
         }
+
+        return result;
     }
 
+    private void union(Map<T,T> parent, T x, T y) {
+        T node = find(parent, x);
+        T newParent = find(parent, y);
 
-    private T find(HashMap<T, ArrayList<T>> parentnodes, T srcNode) {
+        parent.put(node, newParent);
 
-        for (Map.Entry<T, ArrayList<T>> entry : parentnodes.entrySet()) {
-            T key = entry.getKey();
-            if (key.equals(srcNode)) {
-                return key;
-
-            } else {
-                for (T value : entry.getValue()) {
-                    if (value.equals(srcNode)) {
-                        return key;
-                    }
-                }
-            }
-        }
-        return null;
     }
 
-    private HashMap<T, ArrayList<T>> makeSet(HashMap<T, ArrayList<T>> parentnodes) {
+    private T find(Map<T, T> parent, T node) {
+        if (parent.get(node).equals(node)) return node;
 
-        for (Map.Entry<T, ArrayList<Edge<T>>> entry: adjList.entrySet()) {
-            T key = entry.getKey();
-            parentnodes.put(key, new ArrayList<>());
-        }
-
-        return parentnodes;
+        return find(parent, parent.get(node));
     }
 
-    private void printGraph(ArrayList<Edge<T>> minspantree) {
-        for (int i = 0; i < minspantree.size(); i++) {
-            Edge<T> edge = minspantree.get(i);
-            System.out.println("Edge " + i + " source: " + edge.srcNode +
-                    " destination " + edge.destNode +
-                    " weight: " + edge.weight);
+    private void makeSet(Map<T,T> parent) {
+        for (T entry : adjList.keySet()) {
+            parent.put(entry, entry);
         }
     }
 
-    public static void main(String[] args) throws InvalidEdgeException {
+
+    public static void main(String[] args) throws InvalidEdgeException, InvalidNodeException {
         AdjacencyListUndirectedWeightedGraph<Integer> graph = new AdjacencyListUndirectedWeightedGraph();
 
 
@@ -198,20 +161,22 @@ public class AdjacencyListUndirectedWeightedGraph<T> implements UndirectedWeight
         graph.addNodeElement(3);
         graph.addNodeElement(4);
         graph.addNodeElement(5);
-        //graph.addNodeElement(9);
+        graph.addNodeElement(6);
 
 
-        graph.addEdge(0, 1, 4);
-        graph.addEdge(0, 2, 3);
-        graph.addEdge(1, 2, 1);
-        graph.addEdge(1, 3, 2);
-        graph.addEdge(2, 3, 4);
-        graph.addEdge(3, 4, 2);
-        graph.addEdge(4, 5, 6);
-        //graph.addEdge(5, 9, 12);
+        graph.addEdge(0, 1, 7);
+        graph.addEdge(1, 2, 8);
+        graph.addEdge(0, 3, 5);
+        graph.addEdge(1, 3, 9);
+        graph.addEdge(1, 4, 7);
+        graph.addEdge(2, 4, 5);
+        graph.addEdge(3, 4, 15);
+        graph.addEdge(3, 5, 6);
+        graph.addEdge(4, 5, 8);
+        graph.addEdge(4, 6, 9);
+        graph.addEdge(5, 6, 11);
 
-
-        graph.kruskal();
+        System.out.println(graph.kruskal());
 
     }
 
