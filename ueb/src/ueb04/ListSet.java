@@ -8,58 +8,50 @@ public class ListSet<E extends Comparable<E>> implements Set<E>, Iterable<E> {
 		private T item;
 		private SetNode<T> next;
 
-		/**
-		 * constructor to build a node with no successor
-		 *
-		 * @param element
-		 *            the value to be stored by this node
-		 */
 		private SetNode(T element) {
 			item = element;
 			next = null;
 		}
 
-		/**
-		 * constructor to build a node with specified (maybe null) successor
-		 *
-		 * @param element
-		 *            the value to be stored by this node
-		 * @param reference
-		 *            the next field for this node
-		 */
 		private SetNode(T element, SetNode<T> reference) {
 			item = element;
 			next = reference;
 		}
 	}
 
-	// This is the start of the linked list representing this set.
-	// If the set is empty, it is null
 	private SetNode<E> head = null;
 
+	/**
+	 *
+	 * @param element
+	 *            - element to be inserted
+	 * @return
+	 */
 	@Override
 	public boolean add(E element) {
-		SetNode<E> newNode = new SetNode<>(element);
-		SetNode<E> currentNode = head;
-		SetNode<E> previousNode = null;
+		SetNode<E> new_node, current_node,temp_node;
+
+		new_node = new SetNode<>(element);
+		current_node = head;
+		temp_node = null;
 
 		if(!this.contains(element)) {
-			while (currentNode != null && element.compareTo(currentNode.item) > 0) {
+			while (current_node != null && element.compareTo(current_node.item) > 0) {
 
-				previousNode = currentNode;
-				currentNode = currentNode.next;
+				temp_node = current_node;
+				current_node = current_node.next;
 
 			}
 
-			if (previousNode == null) {
-				head = newNode;
+			if (temp_node == null) {
+				head = new_node;
 			}
 
 			else {
-				previousNode.next = newNode;
+				temp_node.next = new_node;
 			}
 
-			newNode.next = currentNode;
+			new_node.next = current_node;
 			return true;
 		}
 		return false;
@@ -220,7 +212,7 @@ public class ListSet<E extends Comparable<E>> implements Set<E>, Iterable<E> {
 		list2.add(321);
 		list2.add(423);
 
-		list1.union(list2);
+		list1.worstCaseUnion(list2);
 		System.out.println(list1.toString());
 	}
 }

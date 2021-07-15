@@ -28,7 +28,6 @@ class MergeSort {
         sortAndCount(leftArray);
         sortAndCount(rightArray);
 
-        System.out.println("Hello");
 
         return merge(leftArray, rightArray);
     }
@@ -60,8 +59,8 @@ class MergeSort {
     }
 
     public static void main(String args[]) {
-        int[] array = { 20, 1, 4, 20, 7, 33, 90, 4, 192, 33, 42, 69, 99, 2389, 238, 3, 12, 29, 30, 31, 88, 20, 420 };
-        System.out.println(sortAndCount(array));
+        int[] array = { 20, 1, 4, 20, 7 };
+
     }
 
 }

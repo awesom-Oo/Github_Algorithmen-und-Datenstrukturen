@@ -63,14 +63,4 @@ public class LRUBuffer<Key, Value> {
 
         return null;
     }
-
-    public void pairSum(Integer[] arr, int sum) {
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j <arr.length; j++) {
-                if (i + j == sum) {
-                    System.out.println(i + "+" + j);
-                }
-            }
-        }
-    }
 }

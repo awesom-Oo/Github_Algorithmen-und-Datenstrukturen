@@ -91,4 +91,19 @@ public class SimpleLinkedList<E> {
         return count;
     }
 
+    public static void main(String[] args) {
+        SimpleLinkedList<Integer> simpleLinkedList = new SimpleLinkedList();
+
+        simpleLinkedList.addFirst(3);
+        simpleLinkedList.addFirst(4);
+        simpleLinkedList.addFirst(6);
+        simpleLinkedList.addFirst(8);
+        simpleLinkedList.addFirst(1);
+        simpleLinkedList.addFirst(9);
+
+        Integer integer = simpleLinkedList.get(3);
+        System.out.println(integer);
+
+    }
+
 }
